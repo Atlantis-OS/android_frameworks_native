@@ -79,26 +79,26 @@ HalResult<void> HalResult<void>::fromReturn(hardware::Return<R>& ret) {
 // -------------------------------------------------------------------------------------------------
 
 HalResult<void> EmptyHalWrapper::setBoost(Boost boost, int32_t durationMs) {
-    ALOGV("Skipped setBoost %s with duration %dms because Power HAL not available",
+    ALOGE("Skipped setBoost %s with duration %dms because Power HAL not available",
           toString(boost).c_str(), durationMs);
     return HalResult<void>::unsupported();
 }
 
 HalResult<void> EmptyHalWrapper::setMode(Mode mode, bool enabled) {
-    ALOGV("Skipped setMode %s to %s because Power HAL not available", toString(mode).c_str(),
+    ALOGE("Skipped setMode %s to %s because Power HAL not available", toString(mode).c_str(),
           enabled ? "true" : "false");
     return HalResult<void>::unsupported();
 }
 
 HalResult<sp<Aidl::IPowerHintSession>> EmptyHalWrapper::createHintSession(
         int32_t, int32_t, const std::vector<int32_t>& threadIds, int64_t) {
-    ALOGV("Skipped createHintSession(task num=%zu) because Power HAL not available",
+    ALOGE("Skipped createHintSession(task num=%zu) because Power HAL not available",
           threadIds.size());
     return HalResult<sp<Aidl::IPowerHintSession>>::unsupported();
 }
 
 HalResult<int64_t> EmptyHalWrapper::getHintSessionPreferredRate() {
-    ALOGV("Skipped getHintSessionPreferredRate because Power HAL not available");
+    ALOGE("Skipped getHintSessionPreferredRate because Power HAL not available");
     return HalResult<int64_t>::unsupported();
 }
 
@@ -108,7 +108,7 @@ HalResult<void> HidlHalWrapperV1_0::setBoost(Boost boost, int32_t durationMs) {
     if (boost == Boost::INTERACTION) {
         return sendPowerHint(V1_3::PowerHint::INTERACTION, durationMs);
     } else {
-        ALOGV("Skipped setBoost %s because Power HAL AIDL not available", toString(boost).c_str());
+        ALOGE("Skipped setBoost %s because Power HAL AIDL not available", toString(boost).c_str());
         return HalResult<void>::unsupported();
     }
 }
@@ -129,7 +129,7 @@ HalResult<void> HidlHalWrapperV1_0::setMode(Mode mode, bool enabled) {
         case Mode::DOUBLE_TAP_TO_WAKE:
             return setFeature(V1_0::Feature::POWER_FEATURE_DOUBLE_TAP_TO_WAKE, enabled);
         default:
-            ALOGV("Skipped setMode %s because Power HAL AIDL not available",
+            ALOGE("Skipped setMode %s because Power HAL AIDL not available",
                   toString(mode).c_str());
             return HalResult<void>::unsupported();
     }
@@ -152,13 +152,13 @@ HalResult<void> HidlHalWrapperV1_0::setFeature(V1_0::Feature feature, bool enabl
 
 HalResult<sp<hardware::power::IPowerHintSession>> HidlHalWrapperV1_0::createHintSession(
         int32_t, int32_t, const std::vector<int32_t>& threadIds, int64_t) {
-    ALOGV("Skipped createHintSession(task num=%zu) because Power HAL not available",
+    ALOGE("Skipped createHintSession(task num=%zu) because Power HAL not available",
           threadIds.size());
     return HalResult<sp<Aidl::IPowerHintSession>>::unsupported();
 }
 
 HalResult<int64_t> HidlHalWrapperV1_0::getHintSessionPreferredRate() {
-    ALOGV("Skipped getHintSessionPreferredRate because Power HAL not available");
+    ALOGE("Skipped getHintSessionPreferredRate because Power HAL not available");
     return HalResult<int64_t>::unsupported();
 }
 
@@ -228,7 +228,7 @@ HalResult<void> AidlHalWrapper::setBoost(Boost boost, int32_t durationMs) {
 
     // Quick return if boost is not supported by HAL
     if (idx >= mBoostSupportedArray.size() || mBoostSupportedArray[idx] == HalSupport::OFF) {
-        ALOGV("Skipped setBoost %s because Power HAL doesn't support it", toString(boost).c_str());
+        ALOGE("Skipped setBoost %s because Power HAL doesn't support it", toString(boost).c_str());
         return HalResult<void>::unsupported();
     }
 
@@ -244,7 +244,7 @@ HalResult<void> AidlHalWrapper::setBoost(Boost boost, int32_t durationMs) {
 
         mBoostSupportedArray[idx] = isSupported ? HalSupport::ON : HalSupport::OFF;
         if (!isSupported) {
-            ALOGV("Skipped setBoost %s because Power HAL doesn't support it",
+            ALOGE("Skipped setBoost %s because Power HAL doesn't support it",
                   toString(boost).c_str());
             return HalResult<void>::unsupported();
         }
@@ -260,7 +260,7 @@ HalResult<void> AidlHalWrapper::setMode(Mode mode, bool enabled) {
 
     // Quick return if mode is not supported by HAL
     if (idx >= mModeSupportedArray.size() || mModeSupportedArray[idx] == HalSupport::OFF) {
-        ALOGV("Skipped setMode %s because Power HAL doesn't support it", toString(mode).c_str());
+        ALOGE("Skipped setMode %s because Power HAL doesn't support it", toString(mode).c_str());
         return HalResult<void>::unsupported();
     }
 
@@ -273,7 +273,7 @@ HalResult<void> AidlHalWrapper::setMode(Mode mode, bool enabled) {
 
         mModeSupportedArray[idx] = isSupported ? HalSupport::ON : HalSupport::OFF;
         if (!isSupported) {
-            ALOGV("Skipped setMode %s because Power HAL doesn't support it",
+            ALOGE("Skipped setMode %s because Power HAL doesn't support it",
                   toString(mode).c_str());
             return HalResult<void>::unsupported();
         }

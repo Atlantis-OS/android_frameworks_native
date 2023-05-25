@@ -224,7 +224,7 @@ private:
     // Android framework only sends boost upto DISPLAY_UPDATE_IMMINENT.
     // Need to increase the array size if more boost supported.
     std::array<std::atomic<HalSupport>,
-               static_cast<int32_t>(hardware::power::Boost::DISPLAY_UPDATE_IMMINENT) + 1>
+               static_cast<int32_t>(*(android::enum_range<hardware::power::Boost>().end() - 1)) + 1>
             mBoostSupportedArray GUARDED_BY(mBoostMutex) = {HalSupport::UNKNOWN};
     std::array<std::atomic<HalSupport>,
                static_cast<int32_t>(*(android::enum_range<hardware::power::Mode>().end() - 1)) + 1>

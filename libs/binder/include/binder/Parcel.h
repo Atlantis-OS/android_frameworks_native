@@ -1280,6 +1280,7 @@ private:
 
     // Fields only needed when parcelling for "kernel Binder".
     struct KernelFields {
+        KernelFields() {}
         binder_size_t* mObjects = nullptr;
         size_t mObjectsSize = 0;
         size_t mObjectsCapacity = 0;

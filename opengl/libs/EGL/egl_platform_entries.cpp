@@ -1233,8 +1233,15 @@ __eglMustCastToProperFunctionPointerType eglGetProcAddressImpl(const char* procn
                 }
             }
         } else {
-            // The extension forwarder has a fixed number of slots
-            ALOGE("no more slots for eglGetProcAddress(\"%s\")", procname);
+            // If no debug layer is loaded, just return the address from vendor implementation.
+            if (layer_loader.GetDebugLayers().empty()) {
+                if (cnx->dso && cnx->egl.eglGetProcAddress) {
+                    addr = cnx->egl.eglGetProcAddress(procname);
+                }
+            } else {
+                // The extension forwarder has a fixed number of slots
+                ALOGE("no more slots for eglGetProcAddress(\"%s\")", procname);
+            }
         }
 
     } else {

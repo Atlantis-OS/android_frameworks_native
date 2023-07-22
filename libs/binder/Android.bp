@@ -303,8 +303,6 @@ cc_library {
         "libbinder_kernel_defaults",
     ],
 
-    version_script: "libbinder.map",
-
     // for vndbinder
     vendor_available: true,
     vndk: {
@@ -339,6 +337,7 @@ cc_library {
             static: {
                 enabled: false,
             },
+            version_script: "libbinder.map",
         },
         darwin: {
             enabled: false,

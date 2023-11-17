@@ -6694,7 +6694,9 @@ void InputDispatcher::onFocusChangedLocked(const FocusResolver::FocusChanges& ch
         if (focusedInputChannel) {
             CancelationOptions options(CancelationOptions::Mode::CANCEL_NON_POINTER_EVENTS,
                                        "focus left window");
+            options.displayId = changes.displayId;
             synthesizeCancelationEventsForInputChannelLocked(focusedInputChannel, options);
+            synthesizeCancelationEventsForMonitorsLocked(options);
             enqueueFocusEventLocked(changes.oldFocus, /*hasFocus=*/false, changes.reason);
         }
     }

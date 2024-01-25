@@ -40,6 +40,7 @@ cc_library {
         "-Werror",
         "-Wextra",
         "-fvisibility=hidden",
+        "-Os",
     ],
 
     header_libs: [
